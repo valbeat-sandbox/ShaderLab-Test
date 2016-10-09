@@ -15,15 +15,21 @@
 		uniform float4 _MainTex_ST;
 		uniform float4 _SubTex_ST;
 
-		struct v2f {
-			float4 wpos : POSITION;
+		struct appdata
+		{
+			float4 vertex : POSITION;
 			float2 uv : TEXCOORD0;
 		};
 
-        v2f vert(float4 pos : POSITION , float2 uv : TEXCOORD0) {
+		struct v2f {
+			float2 uv : TEXCOORD0;
+			float4 vertex : SV_POSITION;
+		};
+
+        v2f vert(appdata v) {
         	v2f o;
-		    o.wpos = mul(UNITY_MATRIX_MVP,pos);
-		    o.uv = float2(uv.xy * _MainTex_ST.xy * _SubTex_ST.xy + _MainTex_ST.zw + _SubTex_ST.zw);
+		    o.vertex = mul(UNITY_MATRIX_MVP,v.vertex);
+		    o.uv = float2(v.uv.xy * _MainTex_ST.xy * _SubTex_ST.xy + _MainTex_ST.zw + _SubTex_ST.zw);
 		    return o;
 		}
 		float4 frag(v2f i) : COLOR {
