@@ -1,9 +1,5 @@
 ﻿Shader "Custom/GLSLSample"
 {
-	Properties
-	{
-		_MainTex ("Texture", 2D) = "white" {}
-	}
 	SubShader
 	{
 		Pass
@@ -14,9 +10,13 @@
 				gl_Position = gl_ModelViewProjectionMatrix * gl_Vertex;
 			}
 			#endif
+
 			#ifdef FRAGMENT
+			uniform vec4 _Time;
 			void main() {
-				gl_FragColor = vec4(1.0, 0.0, 0.0, 1.0);
+				vec4 color;
+				color.x = (sin(_Time.x * 10)+ 1.0) * 0.5;
+				gl_FragColor = color;
 			}
 			#endif
 			ENDGLSL
